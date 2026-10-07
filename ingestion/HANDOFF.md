@@ -1,6 +1,6 @@
 # EZAI — GHL Voice AI call-export → dashboard (handoff)
 
-Start a fresh Claude Code conversation in this folder (`d:\MC-Family\Downloads\ghl-call-export`) to continue. This is the EZAI project, kept separate from the Boca Skin landing page.
+Start a fresh Claude Code conversation in this folder (`d:\MC-Family\Downloads\ingestion`) to continue. This is the EZAI project, kept separate from the Boca Skin landing page.
 
 ## Goal
 Export GHL Voice AI call recordings + transcripts into storage and a Google Sheet, and surface them in a client dashboard (Porter, built with Vibe GHL AI) showing each call's recording, transcript, and the agent scorecard. Make is the integration layer.

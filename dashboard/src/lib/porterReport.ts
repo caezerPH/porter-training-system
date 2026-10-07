@@ -2,7 +2,7 @@
 // GHL contact custom field). Label-anchored so it is immune to HTML-collapse and
 // never grabs a stray "%"/"7/10" — it reads the authoritative "Total NN/100".
 //
-// Mirrors ../../ghl-call-export/parse-scorecard.js (same 10 criteria) but for the
+// Mirrors ../../../ingestion/parse-scorecard.js (same 10 criteria) but for the
 // written report format: "<label> 7/10 … Total 76/100 … Result Retraining Required".
 
 export const CRITERIA: { key: string; label: string }[] = [

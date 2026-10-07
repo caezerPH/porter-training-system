@@ -6,11 +6,11 @@ Auth + RLS**. Built to be replicated per GHL subaccount by swapping env + Supaba
 
 ## Architecture
 ```
-GHL subaccount ──(server-side)──> ../ghl-call-export/sync-contacts.js ──> Supabase `contacts`
+GHL subaccount ──(server-side)──> ../ingestion/sync-contacts.js ──> Supabase `contacts`
                                                                               │ (anon key + Auth + RLS)
                                                         this dashboard  <─────┘
 ```
-- The GHL token + Supabase **service** key live only in `../ghl-call-export/.env` (server-side).
+- The GHL token + Supabase **service** key live only in `../ingestion/.env` (server-side).
 - The browser bundle carries only `VITE_SUPABASE_URL` + the **publishable/anon** key — safe,
   because all access is gated by RLS and requires a logged-in Supabase user.
 - Scorecards are parsed from the HTML training reports in GHL contact custom fields by
@@ -20,10 +20,10 @@ GHL subaccount ──(server-side)──> ../ghl-call-export/sync-contacts.js �
 1. `cp .env.example .env` and fill in `VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY`,
    `VITE_CLIENT_NAME`, `VITE_CLIENT_SHORT`.
 2. `npm install`
-3. In Supabase SQL Editor run (once): `../ghl-call-export/supabase/schema.sql` then
-   `../ghl-call-export/supabase/contacts.sql`.
+3. In Supabase SQL Editor run (once): `../ingestion/supabase/schema.sql` then
+   `../ingestion/supabase/contacts.sql`.
 4. Create a login user: Supabase → Authentication → Users → Add user.
-5. Populate data: from `../ghl-call-export`, `node sync-contacts.js`.
+5. Populate data: from `../ingestion`, `node sync-contacts.js`.
 6. `npm run dev`
 
 ## Per-client config

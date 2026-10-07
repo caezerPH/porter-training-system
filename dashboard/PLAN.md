@@ -40,7 +40,7 @@ optional/config.
 - [ ] `.env*` in `.gitignore`.
 - [ ] **ACTION FOR USER: rotate PIT `pit-afd64250-…` in GHL** (it lived in committed files).
 
-## Phase 1 — Server-side ingestion (in ../ghl-call-export, zero-dep Node)
+## Phase 1 — Server-side ingestion (in ../ingestion, zero-dep Node)
 - [ ] `supabase/contacts.sql` — `public.contacts` table (raw mirror: name/email/phone/
       tags jsonb / custom_fields jsonb / timestamps), RLS authenticated-read.
 - [ ] `sync-contacts.js` — paginate GHL `/contacts/search` (Version 2021-07-28), upsert
@@ -63,7 +63,7 @@ optional/config.
       (private bucket, authenticated RLS), shows summary + transcript. Verified end-to-end
       as the real user: login → read calls/contacts under RLS → createSignedUrl → 4.1 MB
       WAV served. Both trainees have recordings (ryan 7, chauncey 1).
-- [x] **Polling** via Windows Task Scheduler. `ghl-call-export/poll.ps1` runs sync-contacts.js
+- [x] **Polling** via Windows Task Scheduler. `ingestion/poll.ps1` runs sync-contacts.js
       + backfill.js (idempotent), logs to `poll.log`. `register-poll.ps1` registers task
       **"EZAI-Porter-Poll"** (every 15 min). Verified: scheduled run LastResult=0, 51 rows,
       0 errors. Manage: `Unregister-ScheduledTask -TaskName "EZAI-Porter-Poll" -Confirm:$false`
@@ -83,7 +83,7 @@ optional/config.
   Index rebranded + Sign-out + GHL-token flow retired. Verified: `tsc --noEmit` clean,
   `npm run build` OK, 6 tests pass (incl. 5 new parser tests).
 - **PENDING USER ACTIONS before go-live:**
-  1. Run `../ghl-call-export/supabase/contacts.sql` in Supabase SQL Editor.
+  1. Run `../ingestion/supabase/contacts.sql` in Supabase SQL Editor.
   2. Create a dashboard login user (Supabase → Authentication → Users → Add user),
      OR ask Claude to create one via the Admin API.
   3. Rotate the leaked GHL PIT.
@@ -138,8 +138,8 @@ optional/config.
 - Verified: tsc clean, build OK, 6 tests pass, brand palette compiled into CSS.
 
 ### PENDING USER ACTIONS (session 2)
-1. Run these in Supabase SQL Editor (in order): `../ghl-call-export/supabase/rbac.sql`,
-   `../ghl-call-export/supabase/announcements.sql`, `../ghl-call-export/supabase/app-settings.sql`.
+1. Run these in Supabase SQL Editor (in order): `../ingestion/supabase/rbac.sql`,
+   `../ingestion/supabase/announcements.sql`, `../ingestion/supabase/app-settings.sql`.
 2. **After step 1, sign out & back in** (so your token carries role=admin, else you'll see nothing).
 3. Deploy the Edge Function for in-dashboard user creation:
    `supabase functions deploy admin-create-user --project-ref gevahoscknbysfllrnty`
@@ -148,5 +148,5 @@ optional/config.
 
 ## Replication checklist (new client)
 1. New Supabase project → run `supabase/schema.sql` + `supabase/contacts.sql`.
-2. New `ghl-call-export/.env` (that client's GHL PIT + location + Supabase service key); run sync.
+2. New `ingestion/.env` (that client's GHL PIT + location + Supabase service key); run sync.
 3. New dashboard `.env` (that client's `VITE_SUPABASE_URL` + `VITE_SUPABASE_ANON_KEY`) + `config.ts` field map; build + deploy.
