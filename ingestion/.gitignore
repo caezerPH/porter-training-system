@@ -1,0 +1,14 @@
+# Secrets — server-side only, never commit
+.env
+.env.*
+!.env.example
+
+# Logs & local output
+poll.log
+*.log
+
+# Node
+node_modules
+
+# Any downloaded recordings (should go to Supabase Storage, not git)
+*.wav
